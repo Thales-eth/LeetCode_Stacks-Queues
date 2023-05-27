@@ -93,3 +93,75 @@ function simplifyPath(path) {
     }
     return "/" + stack.join("/")
 }
+
+// Given a string s of lower and upper case English letters.
+
+// A good string is a string which doesn't have two adjacent characters s[i] and s[i + 1] where:
+
+// 0 <= i <= s.length - 2
+// s[i] is a lower-case letter and s[i + 1] is the same letter but in upper-case or vice-versa.
+// To make the string good, you can choose two adjacent characters that make the string bad and remove them. You can keep doing this until the string becomes good.
+
+// Return the string after making it good. The answer is guaranteed to be unique under the given constraints.
+
+// Notice that an empty string is also good.
+
+
+
+// Example 1:
+
+// Input: s = "leEeetcode"
+// Output: "leetcode"
+// Explanation: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
+
+// https://leetcode.com/problems/make-the-string-great/description/
+
+function makeGood(s) {
+    const stack = []
+    for (letter of s) {
+        if (stack.length && letter.toLowerCase() === stack.at(-1).toLowerCase() && letter !== stack.at(-1)) stack.pop()
+        else {
+            stack.push(letter)
+        }
+    }
+    return stack.join("")
+};
+
+// Given a stream of integers and a window size, calculate the moving average of all integers in the sliding window.
+
+// Implement the MovingAverage class:
+
+// MovingAverage(int size) Initializes the object with the size of the window size.
+// double next(int val) Returns the moving average of the last size values of the stream.
+
+// Example 1:
+
+// Input
+// ["MovingAverage", "next", "next", "next", "next"]
+// [[3], [1], [10], [3], [5]]
+// Output
+// [null, 1.0, 5.5, 4.66667, 6.0]
+
+// Explanation
+// MovingAverage movingAverage = new MovingAverage(3);
+// movingAverage.next(1); // return 1.0 = 1 / 1
+// movingAverage.next(10); // return 5.5 = (1 + 10) / 2
+// movingAverage.next(3); // return 4.66667 = (1 + 10 + 3) / 3
+// movingAverage.next(5); // return 6.0 = (10 + 3 + 5) / 3
+
+// https://leetcode.com/problems/moving-average-from-data-stream/description/
+
+var MovingAverage = function (size) {
+    this.queue = []
+    this.size = size
+    this.acc = 0
+};
+
+MovingAverage.prototype.next = function (val) {
+    if (this.queue.length === this.size) {
+        this.acc -= this.queue.shift()
+    }
+    this.acc += val
+    this.queue.push(val)
+    return this.acc / this.queue.length
+};
